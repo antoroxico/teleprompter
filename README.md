@@ -2,26 +2,26 @@
 
 ## Teleprompter ##
 
-You can edit the text right on the page. It'll even save your changes for you if you happen to leave the page.
+Se puede editar el taxto de la pagina. guardara los cambios para que esten disponibles cuando vuelvas
 
-If you're using an iPad, you can add a shortcut to your home screen for full screen awesomeness.
+Si usas un iPad, puedes agregar un atajo para que sea aun mas genial :D.
 
-You can also use some handy keyboard shortcuts. You can adjust the speed & font size at the top right as well. I'm also experimenting with ways to flip the text around for you fancy folks using mirrors.
+Tienes varios atajos disponibles, puedes aujstar la velocidad, el tamaño del texto o voltear el texto como si fuera un espejo
+incluso puedes cargar archivos de texto(.txt) o markdowm(.md) via [marked js](https://github.com/chjj/marked) y se mostaran parseados en la pagina
 
-A new feature, requested by [Richard Di Brittannia](https://soundcloud.com/rdbritannia), allows you to change the colors of the text and background for situations where it might make things easier for you.  Changes are of course saved automatically.  ( Make sure you clear your browsers cache if you do not see these changes )
+a peticion de [Richard Di Brittannia](https://soundcloud.com/rdbritannia), puedes cambiar el color de las letras y del fondo
 
 ## Now Available @ [http://promptr.tv](http://promptr.tv) ##
 
 
-## Keyboard Shortcuts ##
+## Atajos del teclado ##
 
-- **Up**: Increases Font Size
-- **Down**: Decreases Font Size
-- **Left**: Slows Down Teleprompter
-- **Right**: Speeds Up Teleprompter
-- **Space**: Starts / Stops Teleprompter
-- **Escape**: Resets GUI
+- **arriba**:aumentar tamaño de la letra
+- **abajo**: disminuir tamaño de la letra
+- **izquerda**:disminuir velocidad
+- **derecha**: aumentar velocidad
+- **espacio**: pausa/ reproducir
+- **Escape**: resetar el teleprompter
 
-Finally, we also made an effort to make sure your text will be easy to read.   So if you are pasting text from a word document, we'll do some cleaning up to make the breaks flow more easily.
 
-Follow me on Twitter for updates: **[@mrmidi](http://twitter.com/mrmidi "Follow @mrmidi on Twitter")**
+no dejes de seguir al desarrollador original para agradecer su trabajo: **[@mrmidi](http://twitter.com/mrmidi "Follow @mrmidi on Twitter")**
