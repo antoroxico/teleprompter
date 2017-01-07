@@ -2,7 +2,7 @@
 
 ## Teleprompter ##
 
-Se puede editar el taxto de la pagina. guardara los cambios para que esten disponibles cuando vuelvas
+Se puede editar el texto de la pagina. guardara los cambios para que esten disponibles cuando vuelvas
 
 Si usas un iPad, puedes agregar un atajo para que sea aun mas genial :D.
 
