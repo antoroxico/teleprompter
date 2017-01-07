@@ -15,24 +15,31 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.css" />
+		<link rel='stylesheet' href='css/open_sans.css' type='text/css'>
+		<link rel="stylesheet" href="css/jquery-ui_old.css" />
 		<link rel="stylesheet" href="css/style.css?v=0.6.1">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/font-awesome_old.css">
+	 
 	</head>
 	<body id="gui">
 		<header>
-			<h1><i class="icon icon-bullhorn"></i> <span class="clock">00:00:00</span></h1>
+			<h1><i class="icon icon-time"></i> <span class="clock">00:00:00</span></h1>
+			<label class="myFile">
+			<i class="button small icon-upload-alt"></i>
+			<input type="file" id="archivo_para_mostrar" onChange="onChange(event)"/>
+			</label>
 			<nav>
                 <div class="buttons">
 					<a class="button small icon-undo reset" href="#" onclick="return false;"></a>
 					<a class="button small icon-text-width flipx" href="#" onclick="return false;"></a>
 					<a class="button small icon-text-height flipy" href="#" onclick="return false;"></a>
+					<a class="button icon-backward backward active" href="#" onclick="return false;"></a>
 					<a class="button icon-play play active" href="#" onclick="return false;"></a>
+					<a class="button icon-forward forward active" href="#" onclick="return false;"></a>
 				</div>
 				<div class="sliders">
-					<label class="font_size_label">Font Size <span>(60)</span>:&nbsp; <div class="font_size slider"></div></label><br>
-					<label class="speed_label">Speed <span>(35)</span>:&nbsp; <div class="speed slider"></div></label>
+					<label class="font_size_label">Tamaño de letra<span>(60)</span>:&nbsp; <div class="font_size slider"></div></label><br>
+					<label class="speed_label">Velocidad <span>(35)</span>:&nbsp; <div class="speed slider"></div></label>
 				</div>
                 <div class="colors">
                     <input id="text-color-picker" class="color {hash:true,caps:true,valueElement:'text-color'}"><input type="hidden" id="text-color" value="#ffffff">
@@ -45,43 +52,56 @@
 				<div class="top"></div>
 				<div class="bottom"></div>
 			</div>
-			<div class="teleprompter" id="teleprompter" contenteditable>
-				Oh, hello there. I did not see you come in. I was to busy reading off this TelePrompter. It does some pretty cool things, for example:
-				<br><br>
-				You can edit the text right on the page. It'll even save it for you if you happen to leave the page. That's some smart thinking.
-				<br><br>
-				If you're using an iPad, you can add a shortcut to your home screen for full screen awesomeness.
-				<br><br>
-				You can also use some handy keyboard shortcuts to speed things up. You can adjust the speed &amp; font size at the top right as well. We're also experimenting with ways to flip the text around for you fancy folks using mirrors.
-				<br><br>
-				The keyboard shortcuts are as  follows:
-				<br><br>
-				Up:  Increases Font Size
-				<br><br>
-				Down:  Decreases Font Size
-				<br><br>
-				Left:  Slows Down Teleprompter
-				<br><br>
-				Right:  Speeds Up Teleprompter
-				<br><br>
-				Space:  Starts / Stops Teleprompter
-				<br><br>
-				Escape: Resets Everything
-				<br><br>
-				Finally, we also made an effort to make sure your text will be easy to read. So if you are pasting text from a word document, we'll do some cleaning up to make the breaks flow more easily.
-				<br><br>
-				Thanks for Stopping by.
+			<div class="teleprompter" id="teleprompter" contenteditable="true">
+				
+				Haz click aquí para escribir tu propio texto o carga uno desde el boton <i class="button small icon-upload-alt"></i> en la barra superior
+				<br>
+				archivos de texto(.txt) y ¡markdown! están permitidos
 			</div>
 			<i class="icon-play marker"></i>
 		</article>
 		<footer>
 
 		</footer>
-		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script src="js/jquery.min_old.js"></script>
+		<script src="js/jquery-ui_old.js"></script>
 		<script src="js/jquery.timer.js"></script>
 		<script src="js/jquery.cookie.js"></script>
         <script src="js/jscolor.js"></script>
 		<script src="js/script.js?v=0.6.1"></script>
+		<!-- libs adicionales -->
+		<script src="js/marked.js"></script>
+		<script>
+		function onChange(event) {
+		  var inputFile = event.target;
+		  var file = inputFile.files[0];
+		  var reader = new FileReader();
+		 
+		 reader.onload = function(event) {
+			var textToShow = event.target.result;
+			var fileName = inputFile.value.split('.').slice(1);
+			var markdownFormats = ['markdown'
+									,'mdown'
+									,'mkdn'
+									,'md'
+									,'mkd'
+									,'mdwn'
+									,'mdtxt'
+									,'mdtext'
+									,'Rmd'];
+				markdownFormats = markdownFormats.join(',');
+			for(var i = 0; i < fileName.length; i++){
+				if( new RegExp( '(^|,)'+fileName[i] ).test(markdownFormats) ){
+					textToShow = marked(textToShow) ;
+					break;
+				}
+			}	
+			$('#teleprompter').html( (textToShow) );
+			
+		  };
+
+			reader.readAsText(file);
+		}
+		</script>
 	</body>
 </html>
