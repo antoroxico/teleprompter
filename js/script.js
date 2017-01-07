@@ -1,4 +1,4 @@
-var initPageSpeed = 35,
+var initPageSpeed = 30,
 	initFontSize = 60,
 	scrollDelay,
 	textColor = '#ffffff',
@@ -99,6 +99,22 @@ $(function() {
 		{
 			stop_teleprompter();
 		}
+	});
+	
+	// Listen for forward Button Click
+	$('.button.forward').click(function(evt){
+		$('.speed').slider('value', $('.speed').slider('value') + 3);
+		evt.preventDefault();
+		evt.stopPropagation();
+		return false;
+	});
+	
+	// Listen for backward Button Click
+	$('.button.backward').click(function(evt){
+		$('.speed').slider('value', $('.speed').slider('value') - 3);
+		evt.preventDefault();
+		evt.stopPropagation();
+		return false;
 	});
 	// Listen for FlipX Button Click
 	$('.button.flipx').click(function(){
@@ -264,10 +280,10 @@ function start_teleprompter()
 	$('#teleprompter').attr('contenteditable', false);
 	$('body').addClass('playing');
 	$('.button.play').removeClass('icon-play').addClass('icon-pause');
-	$('header h1, header nav').fadeTo('slow', 0.15);
+	//$('header h1, header nav').fadeTo('slow', 0.15);
 	$('.marker, .overlay').fadeIn('slow');
 
-	window.timer.resetTimer();
+	//window.timer.resetTimer();
 	window.timer.startTimer();
 
 	pageScroll();
