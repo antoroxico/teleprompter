@@ -1,7 +1,7 @@
 ## FORK DE:## https://github.com/manifestinteractive/teleprompter
 
 ## Teleprompter ##
-drop in teleprompter, easy to use whit greats features and future :D
+drop in teleprompter, easy to use with greats features and future :D
 
 ## Now Available @ [http://promptr.tv](http://promptr.tv) ## <-- forked version basic features
 
