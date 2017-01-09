@@ -1,4 +1,5 @@
-## FORK DE:## https://github.com/manifestinteractive/teleprompter
+## FORK VITAMINADO DE:## https://github.com/manifestinteractive/teleprompter
+## IMPROVED FORK OF: https://github.com/manifestinteractive/teleprompter
 
 ## Teleprompter ##
 drop in teleprompter, easy to use with greats features and future :D
