@@ -13,6 +13,17 @@ a peticion de [Richard Di Brittannia](https://soundcloud.com/rdbritannia), puede
 
 ## Now Available @ [http://promptr.tv](http://promptr.tv) ##
 
+## Caracteristicas: ##
+ - se puede editar el texto de la pagina directamente
+ - se pueden cargar archivos de text (.txt)
+ - se pueden cargar archivos markdown (extensiones reconocidas: markdown, mdown, mkdn, md, mkd, mdwn, mdtxt, mdtext, Rmd), la extension puede estar acompañada de otras: archivo.md.txt será reconocido y parseado exitosamente via [marked js](https://github.com/chjj/marked)
+ - reconoce varias codificaciones de caracteres de los archivos para permitir el uso de varios idiomas o juegos de caracteres sin que el texto se llene de caracteres irreconocibles via [encoding js](https://github.com/polygonplanet/encoding.js)
+ - se pueden subir multiples archivos y seran unidos al texto del teleprompter o reemplazara al texto original (el usuario elige)
+ - tiene un lindo relojito para que sepas cuanto tiempo llevas leyendo
+ - voltear el texto (pronto...en proceso de rediseño)
+ - editor de markdown (pronto)
+ - permite colorear el texto para ser usado por varias personas y que cada quien sepa cual es la parte que le toca ( pronto )
+ 
 
 ## Atajos del teclado ##
 
