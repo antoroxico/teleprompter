@@ -19,22 +19,7 @@
 		<link rel="stylesheet" href="css/jquery-ui.css" />
 		<link rel="stylesheet" href="css/style.css?v=0.6.1">
 		<link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
-		<style>
-		.md_azul{
-			color: DeepSkyBlue;
-		}
-		.md_amarillo{
-			color: yellow;
-		}
-		 #custom-handle{
-    width: 2em;
-    height: 1.6em;
-    top: 50%;
-    margin-top: -.8em;
-    text-align: center;
-    line-height: 1.6em;
-  }
-		</style>
+		
 	</head>
 	<body id="gui">
 		<header>
@@ -50,8 +35,8 @@
 			<nav>
                 <div class="buttons">
 					<a class="button fa fa-2x fa-undo reset" href="#" onclick="return false;"></a>
-					<!--<a class="button fa fa-text-width flipx" href="#" onclick="return false;"></a>-->
-					<!--<a class="button fa fa-text-height flipy" href="#" onclick="return false;"></a>-->
+					<a class="button fa fa-2x fa-text-width flipx" href="#" onclick="return false;"></a>
+					<a class="button fa fa-2x fa-text-height flipy" href="#" onclick="return false;"></a>
 					<a class="button fa fa-2x fa-backward backward active" href="#" onclick="return false;"></a>
 					<a class="button fa fa-2x fa-play play active" href="#" onclick="return false;"></a>
 					<a class="button  fa fa-2x fa-forward forward active" href="#" onclick="return false;"></a>
@@ -85,55 +70,12 @@
 		<script src="js/jquery-ui.js"></script>
 		<script src="js/jquery.timer.js"></script>
 		<script src="js/jscolor.js"></script>
-		<script src="js/script.js?v=0.6.1"></script>
+		<script src="js/script.js?v=0.6.1_antoroxico"></script>
 		<!-- libs adicionales -->
 		<!-- para parsear markdowm -->
 		<script src="js/marked.js"></script>
 		<!-- para convertir a utf-8 el contenido de los archivos -->
 		<script src="js/encoding.min.js"></script>
 		<script>
-		$('#archivo_para_mostrar').on('change', cargarArchivo);
-		
-		function cargarArchivo(event) {
-		  var inputFile = event.target;
-		  var file = inputFile.files[0];
-		  var reader = new FileReader();
-		
-			
-		 reader.onload = function(event) {
-			var fileName = inputFile.value.split('.').slice(1);
-			var textToShow = new Uint8Array(event.target.result);
-			var textEncoding = Encoding.detect(textToShow);
-			var checkConcatenate = $('#check_concatenar');
-			var teleprompter = $('#teleprompter');
-			var markdownFormats = 'markdown,mdown,mkdn,md,mkd,mdwn,mdtxt,mdtext,Rmd';
-				
-			textToShow = Encoding.convert(textToShow, {
-							to: 'unicode',
-							from: textEncoding,
-							type: 'string'
-						});	
-						
-			/* permitir archivos con multiples extensiones (ejemplo.md.txt) */			
-			for(var i = 0; i < fileName.length; i++){
-				if( new RegExp( '(^|,)'+fileName[i] ).test(markdownFormats) ){
-					textToShow = marked(textToShow) ;
-					break;
-				}
-			}	
-			if(checkConcatenate.prop('checked') ){
-				textToShow = teleprompter.html() + textToShow;
-			}
-			teleprompter.html(textToShow);
-			
-		  };
-
-			reader.readAsArrayBuffer(file);
-		}
-		
-	  
-		
-		
-		</script>
 	</body>
 </html>
