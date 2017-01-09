@@ -7,7 +7,38 @@ var initPageSpeed = 30,
 
 $(function() {
 
-	clean_teleprompter();
+	// Check if we've been here before and made changes
+	if(localStorage.getItem('teleprompter_font_size'))
+	{
+		initFontSize = localStorage.getItem('teleprompter_font_size');
+	}
+	if(localStorage.getItem('teleprompter_speed'))
+	{
+		initPageSpeed = localStorage.getItem('teleprompter_speed');
+	}
+	if(localStorage.getItem('teleprompter_text'))
+	{
+		//$('#teleprompter').html(localStorage.getItem('teleprompter_text'));
+		setTimeout(function(){$('#teleprompter').html(localStorage.getItem('teleprompter_text'))},1);  //not sure why this has to be inside a timeout, but it does, otherwise lines get appended to the top and bottom of the text.
+	}
+	if(localStorage.getItem('teleprompter_text_color'))
+	{
+		textColor = localStorage.getItem('teleprompter_text_color');
+		$('#text-color').val(textColor);
+		$('#text-color-picker').css('background-color', textColor);
+		$('#teleprompter').css('color', textColor);
+	}
+	if(localStorage.getItem('teleprompter_background_color'))
+	{
+		backgroundColor = localStorage.getItem('teleprompter_background_color');
+		$('#background-color').val(backgroundColor);
+		$('#background-color-picker').css('background-color', textColor);
+		$('#teleprompter').css('background-color', backgroundColor);
+	}
+	else
+	{
+		clean_teleprompter();
+	}
 	// Listen for Key Presses
 	$('#teleprompter').keyup(update_teleprompter);
 	$('body').keydown(navigate);
@@ -18,7 +49,11 @@ $(function() {
 	$('article .teleprompter').css({
 		'padding-bottom': Math.ceil($(window).height()-$('header').height()) + 'px'
 	});
-
+	
+    /* listen to file upload */	
+	$('#archivo_para_mostrar').on('change', cargarArchivo);
+		
+		
 	// Create Font Size Slider
 	$('.font_size').slider({
 		min: 12,
@@ -46,11 +81,13 @@ $(function() {
 	$('#text-color').change(function(){
 		var color = $(this).val();
 		$('#teleprompter').css('color', color);
+		localStorage.setItem('teleprompter_text_color', color);
 		
 	});
 	$('#background-color').change(function(){
 		var color = $(this).val();
 		$('#teleprompter').css('background-color', color);
+		localStorage.setItem('teleprompter_background_color', color);
 		 
 	});
 
@@ -106,6 +143,14 @@ $(function() {
 		{
 			$('.teleprompter').toggleClass('flipy');
 		}
+		
+		if ($('.teleprompter').hasClass('flipy')) {
+      $('article').stop().animate({scrollTop: $(".teleprompter").height() + 100 }, 250, 'swing', function(){ $('article').clearQueue(); });
+		} else {
+      $('article').stop().animate({scrollTop: 0 }, 250, 'swing', function(){ $('article').clearQueue(); });
+		}
+		
+		
 	});
 	// Listen for Reset Button Click
 	$('.button.reset').click(function(){
@@ -116,7 +161,7 @@ $(function() {
 });
 
 // Manage Font Size Change
-function fontSize(save_cookie)
+function fontSize(save_local)
 {
 	initFontSize = $('.font_size').slider( "value" );
 
@@ -133,21 +178,21 @@ function fontSize(save_cookie)
 
 	$('label.font_size_label span').text('(' + initFontSize + ')');
 
-	if(save_cookie)
+	if(save_local)
 	{
-		
+		localStorage.setItem('teleprompter_font_size', initFontSize);
 	}
 }
 
 // Manage Speed Change
-function speed(save_cookie)
+function speed(save_local)
 {
 	initPageSpeed = Math.floor(50 - $('.speed').slider('value'));
 	$('label.speed_label span').text('(' + $('.speed').slider('value') + ')');
 
-	if(save_cookie)
+	if(save_local)
 	{
-		
+		localStorage.setItem('teleprompter_speed', $('.speed').slider('value'));
 	}
 }
 
@@ -255,13 +300,13 @@ function stop_teleprompter()
 	$('body').removeClass('playing');
 
 	window.timer.stopTimer();
-	window.timer.resetTimer()
+	//window.timer.resetTimer()
 }
 
 // Update Teleprompter
 function update_teleprompter()
 {
-	//$.cookie('teleprompter_text', $('#teleprompter').html());
+	localStorage.setItem('teleprompter_text', $('#teleprompter').html());
 }
 
 // Clean Teleprompter
@@ -280,6 +325,47 @@ function clean_teleprompter()
 
 	$('#teleprompter').html(text);
 }
+
+/* upload files to teleprompter */
+function cargarArchivo(event) {
+		  var inputFile = event.target;
+		  var file = inputFile.files[0];
+		  var reader = new FileReader();
+		
+			
+		 reader.onload = function(event) {
+			var fileName = inputFile.value.split('.').slice(1);
+			var textToShow = new Uint8Array(event.target.result);
+			var textEncoding = Encoding.detect(textToShow);
+			var checkConcatenate = $('#check_concatenar');
+			var teleprompter = $('#teleprompter');
+			var markdownFormats = 'markdown,mdown,mkdn,md,mkd,mdwn,mdtxt,mdtext,Rmd';
+				
+			textToShow = Encoding.convert(textToShow, {
+							to: 'unicode',
+							from: textEncoding,
+							type: 'string'
+						});	
+						
+			/* permitir archivos con multiples extensiones (ejemplo.md.txt) */			
+			for(var i = 0; i < fileName.length; i++){
+				if( new RegExp( '(^|,)'+fileName[i] ).test(markdownFormats) ){
+					textToShow = marked(textToShow) ;
+					break;
+				}
+			}	
+			if(checkConcatenate.prop('checked') ){
+				textToShow = teleprompter.html() + textToShow;
+			}
+			teleprompter.html(textToShow);
+			update_teleprompter();
+			
+		  };
+
+			reader.readAsArrayBuffer(file);
+			
+		}
+
 
 /*
  * jQuery UI Touch Punch 0.2.2
