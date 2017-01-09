@@ -7,38 +7,7 @@ var initPageSpeed = 30,
 
 $(function() {
 
-	// Check if we've been here before and made changes
-	if($.cookie('teleprompter_font_size'))
-	{
-		initFontSize = $.cookie('teleprompter_font_size');
-	}
-	if($.cookie('teleprompter_speed'))
-	{
-		initPageSpeed = $.cookie('teleprompter_speed');
-	}
-	if($.cookie('teleprompter_text'))
-	{
-		$('#teleprompter').html($.cookie('teleprompter_text'));
-	}
-	if($.cookie('teleprompter_text_color'))
-	{
-		textColor = $.cookie('teleprompter_text_color');
-		$('#text-color').val(textColor);
-		$('#text-color-picker').css('background-color', textColor);
-		$('#teleprompter').css('color', textColor);
-	}
-	if($.cookie('teleprompter_background_color'))
-	{
-		backgroundColor = $.cookie('teleprompter_background_color');
-		$('#background-color').val(backgroundColor);
-		$('#background-color-picker').css('background-color', textColor);
-		$('#teleprompter').css('background-color', backgroundColor);
-	}
-	else
-	{
-		clean_teleprompter();
-	}
-
+	clean_teleprompter();
 	// Listen for Key Presses
 	$('#teleprompter').keyup(update_teleprompter);
 	$('body').keydown(navigate);
@@ -77,12 +46,12 @@ $(function() {
 	$('#text-color').change(function(){
 		var color = $(this).val();
 		$('#teleprompter').css('color', color);
-		$.cookie('teleprompter_text_color', color);
+		
 	});
 	$('#background-color').change(function(){
 		var color = $(this).val();
 		$('#teleprompter').css('background-color', color);
-		$.cookie('teleprompter_background_color', color);
+		 
 	});
 
 	// Run initial configuration on sliders
@@ -91,7 +60,7 @@ $(function() {
 
 	// Listen for Play Button Click
 	$('.button.play').click(function(){
-		if($(this).hasClass('icon-play'))
+		if($(this).hasClass('fa-play'))
 		{
 			start_teleprompter();
 		}
@@ -166,7 +135,7 @@ function fontSize(save_cookie)
 
 	if(save_cookie)
 	{
-		$.cookie('teleprompter_font_size', initFontSize);
+		
 	}
 }
 
@@ -178,7 +147,7 @@ function speed(save_cookie)
 
 	if(save_cookie)
 	{
-		$.cookie('teleprompter_speed', $('.speed').slider('value'));
+		
 	}
 }
 
@@ -228,50 +197,36 @@ function navigate(evt)
 	if(evt.keyCode == escape)
 	{
 		$('.button.reset').trigger('click');
-		evt.preventDefault();
-		evt.stopPropagation();
-		return false;
 	}
 	// Start Stop Scrolling
 	else if(evt.keyCode == space)
 	{
 		$('.button.play').trigger('click');
-		evt.preventDefault();
-		evt.stopPropagation();
-		return false;
 	}
 	// Decrease Speed with Left Arrow
 	else if(evt.keyCode == left)
 	{
 		$('.speed').slider('value', speed-1);
-		evt.preventDefault();
-		evt.stopPropagation();
-		return false;
+		
 	}
 	// Decrease Font Size with Down Arrow
 	else if(evt.keyCode == down)
 	{
 		$('.font_size').slider('value', font_size-1);
-		evt.preventDefault();
-		evt.stopPropagation();
-		return false;
 	}
 	// Increase Font Size with Up Arrow
 	else if(evt.keyCode == up)
 	{
 		$('.font_size').slider('value', font_size+1);
-		evt.preventDefault();
-		evt.stopPropagation();
-		return false;
 	}
 	// Increase Speed with Right Arrow
 	else if(evt.keyCode == right)
 	{
 		$('.speed').slider('value', speed+1);
-		evt.preventDefault();
-		evt.stopPropagation();
-		return false;
 	}
+	evt.preventDefault();
+	evt.stopPropagation();
+	return false;
 }
 
 // Start Teleprompter
@@ -279,7 +234,7 @@ function start_teleprompter()
 {
 	$('#teleprompter').attr('contenteditable', false);
 	$('body').addClass('playing');
-	$('.button.play').removeClass('icon-play').addClass('icon-pause');
+	$('.button.play').removeClass('fa-play').addClass('fa-pause');
 	//$('header h1, header nav').fadeTo('slow', 0.15);
 	$('.marker, .overlay').fadeIn('slow');
 
@@ -295,17 +250,18 @@ function stop_teleprompter()
 	clearTimeout(scrollDelay);
 	$('#teleprompter').attr('contenteditable', true);
 	$('header h1, header nav').fadeTo('slow', 1);
-	$('.button.play').removeClass('icon-pause').addClass('icon-play');
+	$('.button.play').removeClass('fa-pause').addClass('fa-play');
 	$('.marker, .overlay').fadeOut('slow');
 	$('body').removeClass('playing');
 
 	window.timer.stopTimer();
+	window.timer.resetTimer()
 }
 
 // Update Teleprompter
 function update_teleprompter()
 {
-	$.cookie('teleprompter_text', $('#teleprompter').html());
+	//$.cookie('teleprompter_text', $('#teleprompter').html());
 }
 
 // Clean Teleprompter
