@@ -1,17 +1,33 @@
 ## FORK DE:## https://github.com/manifestinteractive/teleprompter
 
 ## Teleprompter ##
+drop in teleprompter, easy to use whit greats features and future :D
 
-Se puede editar el texto de la pagina. guardara los cambios para que esten disponibles cuando vuelvas
+## Now Available @ [http://promptr.tv](http://promptr.tv) ## <-- forked version basic features
 
-Si usas un iPad, puedes agregar un atajo para que sea aun mas genial :D.
+## Features: ##
+ - you can edit the text of the page directly
+ - text (.txt) files can be loaded
+ - markdown files can be loaded (recognized extensions: markdown, mdown, mkdn, md, mkd, mdwn, mdtxt, mdtext, Rmd), the extension can be accompanied by others: file.md.txt will be recognized and successfully parsed via [marked Js] (https://github.com/chjj/marked)
+ - recognizes several character encodings of files to allow the use of multiple languages or character sets without the text being filled with unrecognizable characters via [encoding js] (https://github.com/polygonplanet/encoding.js)
+ - you can upload multiple files and they will be attached to the text of the teleprompter or replace the original(the user chooses)
+ - has a nice watch so you know how long you've been reading
+ - turn the text up or down (soon ... in the process of redesign)
+ - markdown editor (soon)
+ - allows you to color the text to be used by several people and let each one know what part he / she touches (soon)
+- You can change the text and background color
 
-Tienes varios atajos disponibles, puedes aujstar la velocidad, el tamaño del texto o voltear el texto como si fuera un espejo
-incluso puedes cargar archivos de texto(.txt) o markdowm(.md) via [marked js](https://github.com/chjj/marked) y se mostaran parseados en la pagina
+## shortcuts ##
+- ** up **: increase font size
+- ** down **: decrease font size
+- ** left **: decrease speed
+- ** right **: increase speed
+- ** space **: pause / play
+- ** Escape **: reset the teleprompter
 
-a peticion de [Richard Di Brittannia](https://soundcloud.com/rdbritannia), puedes cambiar el color de las letras y del fondo
-
-## Now Available @ [http://promptr.tv](http://promptr.tv) ##
+**[@mrmidi](http://twitter.com/mrmidi "Follow @mrmidi on Twitter")**
+--
+# AHORA EN ESPAÑOL
 
 ## Caracteristicas: ##
  - se puede editar el texto de la pagina directamente
@@ -23,7 +39,7 @@ a peticion de [Richard Di Brittannia](https://soundcloud.com/rdbritannia), puede
  - voltear el texto (pronto...en proceso de rediseño)
  - editor de markdown (pronto)
  - permite colorear el texto para ser usado por varias personas y que cada quien sepa cual es la parte que le toca ( pronto )
- 
+ - puedes cambiar el color del texto y del fondo
 
 ## Atajos del teclado ##
 
