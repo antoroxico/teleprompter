@@ -105,11 +105,13 @@ $(function() {
 		{
 			stop_teleprompter();
 		}
+		refocusWindow();
 	});
 	
 	// Listen for forward Button Click
 	$('.button.forward').click(function(evt){
 		$('.speed').slider('value', $('.speed').slider('value') + 3);
+		refocusWindow();
 		evt.preventDefault();
 		evt.stopPropagation();
 		return false;
@@ -118,6 +120,7 @@ $(function() {
 	// Listen for backward Button Click
 	$('.button.backward').click(function(evt){
 		$('.speed').slider('value', $('.speed').slider('value') - 3);
+		refocusWindow();
 		evt.preventDefault();
 		evt.stopPropagation();
 		return false;
@@ -132,6 +135,7 @@ $(function() {
 		{
 			$('.teleprompter').toggleClass('flipx');
 		}
+		refocusWindow();
 	});
 	// Listen for FlipY Button Click
 	$('.button.flipy').click(function(){
@@ -145,11 +149,14 @@ $(function() {
 		}
 		
 		if ($('.teleprompter').hasClass('flipy')) {
-      $('article').stop().animate({scrollTop: $(".teleprompter").height() + 100 }, 250, 'swing', function(){ $('article').clearQueue(); });
+      $('article')
+		.stop()
+		.animate({
+			scrollTop: $(".teleprompter").height() + 100 }, 250, 'swing', function(){ $('article').clearQueue(); });
 		} else {
       $('article').stop().animate({scrollTop: 0 }, 250, 'swing', function(){ $('article').clearQueue(); });
 		}
-		
+		refocusWindow();
 		
 	});
 	// Listen for Reset Button Click
@@ -158,7 +165,23 @@ $(function() {
 		timer.resetTimer();
 		$('article').stop().animate({scrollTop: 0}, 100, 'linear', function(){ $('article').clearQueue(); });
 	});
+	refocusWindow();
 });
+
+/*
+--------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------FUNCTIONS------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
+*/
+// Refocus body so keystrokes work after a button is hit
+function refocusWindow()
+{
+    //window.focus();
+    if (document.activeElement) {
+        document.activeElement.blur();
+    }
+    //$("#teleprompter").focus();
+}
 
 // Manage Font Size Change
 function fontSize(save_local)
@@ -199,18 +222,34 @@ function speed(save_local)
 // Manage Scrolling Teleprompter
 function pageScroll()
 {
-	$('article').animate({scrollTop: "+=1px" }, 0, 'linear', function(){ $('article').clearQueue(); });
+	if ($('.teleprompter').hasClass('flipy')) {
+    $('article').animate({scrollTop: "-=1px" }, 0, 'linear', function(){ $('article').clearQueue(); });
 
-	clearTimeout(scrollDelay);
-	scrollDelay = setTimeout(pageScroll, initPageSpeed);
+    clearTimeout(scrollDelay);
+    scrollDelay = setTimeout(pageScroll, initPageSpeed);
 
-	// We're at the bottom of the document, stop
-	if($("article").scrollTop() >= ( ( $("article")[0].scrollHeight - $(window).height() ) - 100 ))
-	{
-		stop_teleprompter();
-		setTimeout(function(){
-			$('article').stop().animate({scrollTop: 0}, 500, 'swing', function(){ $('article').clearQueue(); });
-		}, 500);
+    // We're at the bottom of the document, stop
+    if($("article").scrollTop() === 0)
+    {
+      stop_teleprompter();
+      setTimeout(function(){
+        $('article').stop().animate({scrollTop: $(".teleprompter").height() + 100 }, 500, 'swing', function(){ $('article').clearQueue(); });
+      }, 500);
+    }
+	} else {
+    $('article').animate({scrollTop: "+=1px" }, 0, 'linear', function(){ $('article').clearQueue(); });
+
+    clearTimeout(scrollDelay);
+    scrollDelay = setTimeout(pageScroll, initPageSpeed);
+
+    // We're at the bottom of the document, stop
+    if($("article").scrollTop() >= ( ( $("article")[0].scrollHeight - $(window).height() ) - 100 ))
+    {
+      stop_teleprompter();
+      setTimeout(function(){
+        $('article').stop().animate({scrollTop: 0}, 500, 'swing', function(){ $('article').clearQueue(); });
+      }, 500);
+    }
 	}
 }
 
