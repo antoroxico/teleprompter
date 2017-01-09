@@ -1,12 +1,12 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="es" xml:lang="es">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 		<title>TelePrompter</title>
 
-		<meta name="author" content="Peter Schmalfeldt">
+		<meta name="author" content="Peter Schmalfeldt">		
 		<meta name="description" content="HTML5, CSS3 &amp; Javascript Based TelePrompter">
 		<meta name="keywords" content="TelePrompter, HTML, HTML5, CSS, CSS3, Javascript">
 
@@ -14,32 +14,51 @@
 		<meta name="viewport" content="width=1024, initial-scale=1, maximum-scale=1">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
+		<link rel="shortcut icon" href="favicon.ico" />
 		<link rel='stylesheet' href='css/open_sans.css' type='text/css'>
-		<link rel="stylesheet" href="css/jquery-ui_old.css" />
+		<link rel="stylesheet" href="css/jquery-ui.css" />
 		<link rel="stylesheet" href="css/style.css?v=0.6.1">
-		<link rel="stylesheet" href="css/font-awesome_old.css">
-	 
+		<link rel="stylesheet" href="css/font-awesome.css" type='text/css'>
+		<style>
+		.md_azul{
+			color: DeepSkyBlue;
+		}
+		.md_amarillo{
+			color: yellow;
+		}
+		 #custom-handle{
+    width: 2em;
+    height: 1.6em;
+    top: 50%;
+    margin-top: -.8em;
+    text-align: center;
+    line-height: 1.6em;
+  }
+		</style>
 	</head>
 	<body id="gui">
 		<header>
-			<h1><i class="icon icon-time"></i> <span class="clock">00:00:00</span></h1>
-			<label class="myFile">
-			<i class="button small icon-upload-alt"></i>
-			<input type="file" id="archivo_para_mostrar" onChange="onChange(event)"/>
+		
+			<h1><i class="icon fa fa-clock-o"></i> <span class="clock">00:00:00</span></h1>
+				<label class="myFile">
+					<i class="button fa fa-2x fa-upload"></i>
+					<input type="file" id="archivo_para_mostrar" />
+			</label>
+			<label>
+			<input style="margin: 5px;" input type="checkbox" id="check_concatenar" value="unir" />Unir Archivos
 			</label>
 			<nav>
                 <div class="buttons">
-					<a class="button small icon-undo reset" href="#" onclick="return false;"></a>
-					<a class="button small icon-text-width flipx" href="#" onclick="return false;"></a>
-					<a class="button small icon-text-height flipy" href="#" onclick="return false;"></a>
-					<a class="button icon-backward backward active" href="#" onclick="return false;"></a>
-					<a class="button icon-play play active" href="#" onclick="return false;"></a>
-					<a class="button icon-forward forward active" href="#" onclick="return false;"></a>
+					<a class="button fa fa-2x fa-undo reset" href="#" onclick="return false;"></a>
+					<!--<a class="button fa fa-text-width flipx" href="#" onclick="return false;"></a>-->
+					<!--<a class="button fa fa-text-height flipy" href="#" onclick="return false;"></a>-->
+					<a class="button fa fa-2x fa-backward backward active" href="#" onclick="return false;"></a>
+					<a class="button fa fa-2x fa-play play active" href="#" onclick="return false;"></a>
+					<a class="button  fa fa-2x fa-forward forward active" href="#" onclick="return false;"></a>
 				</div>
 				<div class="sliders">
-					<label class="font_size_label">Tamaño de letra<span>(60)</span>:&nbsp; <div class="font_size slider"></div></label><br>
-					<label class="speed_label">Velocidad <span>(35)</span>:&nbsp; <div class="speed slider"></div></label>
+					<label class="font_size_label">Tamaño de letra<span>(60)</span>:&nbsp; </label><div class="font_size slider"></div><br>
+					<label class="speed_label">Velocidad <span>(35)</span>:&nbsp; </label><div class="speed slider" >  <!--<div id="custom-handle" class="ui-slider-handle ">0</div>--></div>
 				</div>
                 <div class="colors">
                     <input id="text-color-picker" class="color {hash:true,caps:true,valueElement:'text-color'}"><input type="hidden" id="text-color" value="#ffffff">
@@ -53,55 +72,68 @@
 				<div class="bottom"></div>
 			</div>
 			<div class="teleprompter" id="teleprompter" contenteditable="true">
-				
-				Haz click aquí para escribir tu propio texto o carga uno desde el boton <i class="button small icon-upload-alt"></i> en la barra superior
+				Haz click aquí para escribir tu propio texto o carga uno desde el boton <i class="fa fa-upload"></i> en la barra superior
 				<br>
 				archivos de texto(.txt) y ¡markdown! están permitidos
 			</div>
-			<i class="icon-play marker"></i>
+			 
 		</article>
 		<footer>
 
 		</footer>
-		<script src="js/jquery.min_old.js"></script>
-		<script src="js/jquery-ui_old.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
 		<script src="js/jquery.timer.js"></script>
-		<script src="js/jquery.cookie.js"></script>
-        <script src="js/jscolor.js"></script>
+		<script src="js/jscolor.js"></script>
 		<script src="js/script.js?v=0.6.1"></script>
 		<!-- libs adicionales -->
+		<!-- para parsear markdowm -->
 		<script src="js/marked.js"></script>
+		<!-- para convertir a utf-8 el contenido de los archivos -->
+		<script src="js/encoding.min.js"></script>
 		<script>
-		function onChange(event) {
+		$('#archivo_para_mostrar').on('change', cargarArchivo);
+		
+		function cargarArchivo(event) {
 		  var inputFile = event.target;
 		  var file = inputFile.files[0];
 		  var reader = new FileReader();
-		 
+		
+			
 		 reader.onload = function(event) {
-			var textToShow = event.target.result;
 			var fileName = inputFile.value.split('.').slice(1);
-			var markdownFormats = ['markdown'
-									,'mdown'
-									,'mkdn'
-									,'md'
-									,'mkd'
-									,'mdwn'
-									,'mdtxt'
-									,'mdtext'
-									,'Rmd'];
-				markdownFormats = markdownFormats.join(',');
+			var textToShow = new Uint8Array(event.target.result);
+			var textEncoding = Encoding.detect(textToShow);
+			var checkConcatenate = $('#check_concatenar');
+			var teleprompter = $('#teleprompter');
+			var markdownFormats = 'markdown,mdown,mkdn,md,mkd,mdwn,mdtxt,mdtext,Rmd';
+				
+			textToShow = Encoding.convert(textToShow, {
+							to: 'unicode',
+							from: textEncoding,
+							type: 'string'
+						});	
+						
+			/* permitir archivos con multiples extensiones (ejemplo.md.txt) */			
 			for(var i = 0; i < fileName.length; i++){
 				if( new RegExp( '(^|,)'+fileName[i] ).test(markdownFormats) ){
 					textToShow = marked(textToShow) ;
 					break;
 				}
 			}	
-			$('#teleprompter').html( (textToShow) );
+			if(checkConcatenate.prop('checked') ){
+				textToShow = teleprompter.html() + textToShow;
+			}
+			teleprompter.html(textToShow);
 			
 		  };
 
-			reader.readAsText(file);
+			reader.readAsArrayBuffer(file);
 		}
+		
+	  
+		
+		
 		</script>
 	</body>
 </html>
